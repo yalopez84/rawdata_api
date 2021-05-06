@@ -1,0 +1,83 @@
+Componente: rawdata_api
+Dependencias: -
+Tecnologías: nodejs, express, morgan, postgres, sequelize, …
+Objetivos del componente: API para gestionar los datos relacionados con los cursos en formato primario (raw_data).
+Ficheros de configuración: 
+	-config_files/server_config.js 
+		module.exports = {
+		protocol: 'http',
+		hostname: 'localhost:3000',
+		port: 3000,
+		host:'localhost',
+		bd_name:'universitydb',
+		bd_user:'postgres',
+		bd_user_pass:''
+}
+Entrada: fichero sql/db.sql con el esquema de la BD (esquema incluye el modelo y los datos). Se tiene también una salva de la BD en sql/backup.sql.
+Salidas: file/raw_data/*.json con los datos por cada una de las entidades en formato json. Se incluye el json de los cursos que es la entidad central del caso de estudio. Debe estar creado el directorio files/raw_data.
+Explicación del modelo de datos
+	-El orden de la entrada de datos debe ser el que se sigue en el fichero sql/db.sql. El orden de llenado 	de los nomencladores no interesa pero si el de las tablas de las relaciones.
+	-Se podrán insertar más datos a la BD o trabajar sobre los existentes a través del API. Como no se 	tiene implementada la interfaz visual, se puede utilizar la herramienta Insomnia para gestionar la 	API.
+	-Cada entidad de la BD tiene una columna “URI” para facilitar su transformación semántica. Antes 	de hacer la inserción de las entidades en la BD se deberá conocer su uri. 
+	-Las uri son asignadas por medio de un proceso en el que se tiene en cuenta el 	propietario 	del 	dato y que deben ser únicas en la Web. Las uri pueden ser modificadas como cualquier otra 	columna de la entidad mediante el API, por ello es independiente de la clave id de la BD de postgres 	aunque se debe garantizar su unicidad.
+Explicación del componente y de sus funcionalidades
+	-Constituye un componente de back-end para gestionar los datos de los cursos  que luego se 	utilizarán para su publicación como datos enlazados.
+	-Se debe tener la BD en postgres con los datos para el caso de estudio. Los datos son los que 	aparecen en en los ficheros del directorio sql/.
+	-El componente constituye un API REST (métodos get, post, put, delete) con una arquitectura 	modelo-vista-controlador. Se parte de un fichero src/index.js que constituye el punto de entrada del 	componente, un fichero src/app.js donde se configuran los prefijos de las url de cada uno de los 	módulos del API. En la carpeta 	src/routes se definen las rutas de cada uno de los módulos. En la 	carpeta src/controller se definen los controladores donde se resuelven las rutas del API y en la 	carpeta src/models se definen los modelos. Se utiliza Sequelize como ORM para Postgres en Nodejs.
+	-Con el componente se pueden gestionar los cursos (courses) así como las entidades relacionadas con 	los cursos: universities, teaching methods, teachers, subjects, students, rooms, materials, languages, 	faculties, departments, buildings, assessmentmethods, academicterms. 
+	-Para acceder a los módulos de la aplicación las url tienen la forma http://hostname/api/entidad, 	ejemplo para acceder a las universidades:  http://localhost:3000/api/universities.
+	-Los ficheros de salida con los datos en formato json (file/raw_data/*.json) son actualizados cada vez 	que se actualiza una entidad desde el componente (post,put,delete de una entidad).
+	-Los ficheros de salida con los datos en formato json (file/raw_data/*.json) son actualizados también 	por una vía mas rápida: i) todas las entidades excepto la entidad courses mediante la url: 	http://hostname/api/saveOther, ii) la entidad courses   mediante la url: 	http://hostname/api/saveCourses.
+ 
+Pendiente
+	-Hacer la inserción de los datos desde una interfaz de usuario.
+
+Manual de instalación
+	-Carpeta del proyecto  rawdata_api abierta en el visual studio code
+	-Abrimos una consola para trabajar con la base de datos
+		sudo -u postgres psql
+	-Creamos la base de datos universitydb		
+		create database universitydb;
+	-Listar bases de datos
+		\l
+	-Conectarse a la base de datos  universitydb
+		 \c  universitydb
+	-Corremos todo el script sobre la base de datos universitydb (creación de tablas y copiado de las tuplas del caso de estudio). Fichero sql/backup.sql. Si al correr el script en la consola vemos que no se han llenado las tablas, debemos hacerlo paso a paso. Primero los datos de las tablas nomencladores y luego las tablas dependientes. Para las tablas relaciones podemos tomar los datos del fichero sql/db.sql. Recordar que necesitamos insertar los datos en las tablas nomencladores del fichero backup.sql para mantener los id pero ya luego las tablas dependientes pueden copiarse del fichero db.sql.
+	-Volvemos a la carpeta del proyecto
+	-Crear fichero package.json del proyectos
+		npm init -y
+	-Instalamos las dependencias del proyecto
+		npm install @babel/polyfill // babel es un compilador de código para java script
+		npm install express
+		npm install pg pg-hstore sequelize morgan //sequelize es orm de Postgres
+		npm install --save-dev @babel/core @babel/cli @babel/preset-env  //relacionadas con babel
+		npm install nodemon -D  //dependencias para el desarrollo
+		npm install @babel/node -D //dependencias para el desarrollo
+	-Se crea el fichero .babelrc con el código que aparece abajo para especificarle a babel que se va a 	traducir código java script moderno
+		{
+		    "presets": [
+  		      "@babel/preset-env"
+  		  ]
+		} 
+	-Creamos la carpeta src en el proyecto y dentro un fichero index.js con el codigo siguientes
+			const hello="hello world";
+			console.log(hello);
+	-Reemplazamos en el fichero package.json lo siguiente
+		"test": "echo \"Error: no test specified\" && exit 1" //Reemplazar por lo de abajo
+			"dev":"nodemon src/index.js --exec babel-node",  
+			"build": "babel src --out-dir dist",  
+			"start":"node dist/index.js"	//ejecutar para poner en producción
+	-Con las tres líneas incorporadas se expresa: i) en etapa de desarrollo, lo que se ejecutaría con 	nodemon ahora ejecutarlo con 	babel-node, ii) que el código desarrollado en el directorio “src” irá 	compilado para el directorio “dir” como código para producción, iii) Ejecutar en producción el 	código compilado que aparece en el directorio “dir”.
+	-Probar la aplicación, ejecutar en consola
+		npm run dev
+	-Copiando el código del proyecto que incluye las carpetas y ficheros siguientes:
+		dist
+		config_files(server_config.js)
+		files/raw_data
+		node_modules
+		public/courses_materials
+		sql(backup.sql, db.sql)
+		src(controllers , database, models, routes, app.js, index.js)
+	-Cuando se quiere poner en producción el código
+		npm run build //compilamos el código
+		npm start //ejecutamos el código compilado
