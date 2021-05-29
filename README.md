@@ -30,7 +30,7 @@
 
 -Every database entity has one column called "uri" to ease the transformation to linked data. URI assignation process to entities should be carried out as a previous process. Entity uris can be changed like any other entity column. One module is created per each kind of entity.
 
--The component was prepared to manage data related to courses such as universities, teaching methods, teachers, subjects, students, rooms, materials, languages, faculties, departments, buildings, assessment methods and academic terms.
+-The component was prepared to manage data related to courses, such as universities, teaching methods, teachers, subjects, students, rooms, materials, languages, faculties, departments, buildings, assessment methods and academic terms.
 
 -All datasets of raw data can be got by clicking the home page http://{hostname}/api. The URL template of each module is http://{hostname}/api/{entityname_in_plural}, e.g http://localhost:3000/api/universities.
 
