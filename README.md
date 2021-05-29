@@ -19,10 +19,6 @@
 #### Input files
 -sql/db.sql file with the database schema. It includes model and data. A database backup can be found at sql/backup.sql.
 
--About course subject, a matched was carried out between UCI course subjects and ACM Computing Classification System (https://cran.r-project.org/web/classifications/ACM.html) and Computer Science Ontology (https://cso.kmi.open.ac.uk/downloads) from Open University of UK.
-
--About academic terms, a matched was carried out between UCI course academic terms and Open University of UK academic terms.
-
 #### Output files
 -A file (file/raw_data/{entityname_in_plural}.json) for each entity. It should be created the files/raw_data directory.
 
@@ -42,6 +38,9 @@
 
 -Output files are updated every time one entity is changed (post, put, and delete actions). These files are also updated via specific URL: http://{hostname}/api/saveOther to update others than courses and http://{hostname}/api/saveCourses to update the course file.
 
+-About course subject, a matched was carried out between UCI course subjects and ACM Computing Classification System (https://cran.r-project.org/web/classifications/ACM.html) and Computer Science Ontology (https://cso.kmi.open.ac.uk/downloads) from Open University of UK.
+
+-About academic terms, a matched was carried out between UCI course academic terms and Open University of UK academic terms.
 #### Instalation steps
 		1-Create universitydb database
 		2-Run database backup (sql/backup.sql). We can also take data from  sql/db.sql file
