@@ -17,7 +17,7 @@
 		}
 
 #### Input files
--sql/db.sql file with the database schema. It includes model and data. A database backup can be found at sql/backup.sql.
+-sql/db.sql file with the database schema. It includes model and data. A database backup can be found at sql/backup.sql. Further data can be added using the API. Insomnia tool can be used to send data to the API.
 
 #### Output files
 -A file (file/raw_data/{entityname_in_plural}.json) for each entity. It should be created the files/raw_data directory.
@@ -28,7 +28,7 @@
 #### Explanation
 -This component is a REST API with a model-view-controller architecture. The entrypoint is the src/index.js file, which calls the src/app.js file where in turn, prefixes of each module of the API are set up. Routes are defined in the src/routes directory while controllers are defined in src/controller. Moreover, models are stored in the src/models directory. As Object Relational Mapping (ORM), Sequelize for PostgreSQL on NodeJS was used.
 
--Assessing the API is possible using the backup data, nevertheless, further data can be added using the API. Insomnia tool can be used to send data to the API.
+
 
 -Every database entity has one column called "uri" to ease the transformation to linked data. URI assignation process to entities should be carried out as a previous process. Entity uris can be changed like any other entity column. One module is created per each kind of entity.
 
