@@ -68,4 +68,4 @@
 		8.To put into production
 			npm run build 
 			npm start 
-*It will be running free on http://www.linkeduniversity.org soon*
+*It will be running free on http://www.linkeduniversity.org soon.*
