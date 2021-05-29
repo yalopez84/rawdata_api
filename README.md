@@ -28,11 +28,9 @@
 #### Explanation
 -This component is a REST API with a model-view-controller architecture. The entrypoint is the src/index.js file, which calls the src/app.js file where in turn, prefixes of each module of the API are set up. Routes are defined in the src/routes directory while controllers are defined in src/controller. Moreover, models are stored in the src/models directory. As Object Relational Mapping (ORM), Sequelize for PostgreSQL on NodeJS was used.
 
-
-
 -Every database entity has one column called "uri" to ease the transformation to linked data. URI assignation process to entities should be carried out as a previous process. Entity uris can be changed like any other entity column. One module is created per each kind of entity.
 
--To this proof of concept, the component was prepared to manage data related to courses such as universities, teaching methods, teachers, subjects, students, rooms, materials, languages, faculties, departments, buildings, assessment methods and academic terms.
+-The component was prepared to manage data related to courses such as universities, teaching methods, teachers, subjects, students, rooms, materials, languages, faculties, departments, buildings, assessment methods and academic terms.
 
 -All datasets of raw data can be got by clicking the home page http://{hostname}/api. The URL template of each module is http://{hostname}/api/{entityname_in_plural}, e.g http://localhost:3000/api/universities.
 
