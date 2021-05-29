@@ -34,7 +34,7 @@
 
 -All datasets of raw data can be reached by clicking the home page http://{hostname}/api. The URL template of each module is http://{hostname}/api/{entityname_in_plural}, e.g http://localhost:3000/api/universities.
 
--Output files are updated every time one entity is changed (post, put, and delete actions). These files are also updated via specific URL: http://{hostname}/api/saveOther to update others than courses and http://{hostname}/api/saveCourses to update the course file.
+-Output files are updated every time one entity is changed (post, put, and delete actions). These files are also updated via specific URL: http://{hostname}/api/saveOther (http://localhost:3000/api/saveOther) to update others than courses and http://{hostname}/api/saveCourses (http://localhost:3000/api/saveCourses) to update the course file.
 
 -About course subject, a matched was carried out between UCI course subjects and ACM Computing Classification System (https://cran.r-project.org/web/classifications/ACM.html) and Computer Science Ontology (https://cso.kmi.open.ac.uk/downloads) from Open University of UK.
 
